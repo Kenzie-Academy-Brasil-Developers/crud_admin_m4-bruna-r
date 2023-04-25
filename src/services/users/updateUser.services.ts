@@ -6,6 +6,8 @@ import {
   TUserUpdateRequest,
 } from "../../interfaces/users.interfaces";
 import { client } from "../../database";
+import { userSchemaResponse } from "../../schemas/users.schema";
+import { parse } from "path";
 
 const updateUserServices = async (
   payload: TUserUpdateRequest,
@@ -33,7 +35,9 @@ const updateUserServices = async (
   const queryResult: QueryResult<TUserResponse> = await client.query(
     queryConfig
   );
-  const userUpdate: TUserResponse = queryResult.rows[0];
+  const userUpdate: TUserResponse = userSchemaResponse.parse(
+    queryResult.rows[0]
+  );
 
   return userUpdate;
 };

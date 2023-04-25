@@ -11,6 +11,7 @@ import { deleteUserServices } from "../services/users/deleteUser.services";
 import { listAllUsersServices } from "../services/users/listAllUsers.services";
 import { readProfileServices } from "../services/users/readProfile.services";
 import { recoverUserServices } from "../services/users/recoverUser.services";
+import { userSchemaResponse } from "../schemas/users.schema";
 
 const createUser = async (req: Request, res: Response): Promise<Response> => {
   const payload: TUserRequest = req.body;
@@ -31,7 +32,9 @@ const readProfile = async (req: Request, res: Response): Promise<Response> => {
   const token = req.headers.authorization;
   const id: number = parseInt(res.locals.token.id);
 
-  const profile: TUserResponse = await readProfileServices(id);
+  const user: TUserResponse = await readProfileServices(id);
+
+  const profile: TUserResponse = userSchemaResponse.parse(user);
 
   return res.status(200).json(profile);
 };
@@ -41,7 +44,9 @@ const updateUser = async (req: Request, res: Response): Promise<Response> => {
   const payload: TUserUpdateRequest = req.body;
   const id: number = parseInt(req.params.id);
 
-  const userUpdate: TUserResponse = await updateUserServices(payload, id);
+  const user = await updateUserServices(payload, id);
+
+  const userUpdate: TUserResponse = userSchemaResponse.parse(user);
 
   return res.status(200).json(userUpdate);
 };
@@ -61,7 +66,9 @@ const recoverUser = async (req: Request, res: Response): Promise<Response> => {
 
   const user = await recoverUserServices(id);
 
-  return res.status(204).send(user);
+  const userRecover: TUserResponse = userSchemaResponse.parse(user);
+
+  return res.status(200).json(userRecover);
 };
 
 export {

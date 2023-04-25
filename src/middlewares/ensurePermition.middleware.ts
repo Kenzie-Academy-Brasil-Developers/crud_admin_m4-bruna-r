@@ -6,7 +6,7 @@ const ensurePermitionMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const id = parseInt(req.route.path.id);
+  const id = parseInt(req.params.id);
   const admin = res.locals.token.admin;
   const idtoken = parseInt(res.locals.token.id);
 

@@ -8,11 +8,11 @@ const ensureIsAdminMiddleware = async (
 ): Promise<void | Response> => {
   const admin = res.locals.token.admin;
 
-  if (!admin) {
-    throw new AppError("Insufficient Permission", 403);
+  if (admin) {
+    return next();
   }
 
-  return next();
+  throw new AppError("Insufficient Permission", 403);
 };
 
 export { ensureIsAdminMiddleware };

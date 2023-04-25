@@ -29,12 +29,6 @@ const ensureIdValidMiddleware = async (
     return res.status(404).json({ message: "User not found" });
   }
 
-  if (req.route.path === "recover") {
-    res.locals.active = {
-      active: userById.active,
-    };
-  }
-
   return next();
 };
 

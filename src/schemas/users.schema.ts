@@ -25,7 +25,11 @@ const userSchemaResponse = z.object({
 const userSchemaResponseArray = userSchemaResponse.array();
 
 const userSchemaUpdateRequest = userSchema
-  .omit({ id: true, admin: true, active: true })
+  .omit({
+    id: true,
+    admin: true,
+    active: true,
+  })
   .partial();
 
 const userschemaResponseRecover = userSchema.omit({
